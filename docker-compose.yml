@@ -4,10 +4,25 @@ services:
   web-app:
     build:
       context: .
-      dockerfile: Dockerfile
     ports:
-      - 8000:8000
+      - "8000:8000"
     volumes:
       - ./service:/service
-    working_dir: /service
-    command: "./manage.py runserver 8000"
+    environment:
+      - DB_HOST=database
+      - DB_NAME=dbname
+      - DB_USER=dbuser
+      - DB_PASS=pass
+    depends_on:
+      - database
+    command: > 
+      sh -c "python manage.py runserver 0.0.0.0:8000"
+
+  database:
+    image: postgres:14.7-alpine
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=dbname
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=pass
