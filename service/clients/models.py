@@ -8,4 +8,4 @@ class Client(models.Model):
     full_address = models.CharField(max_length=100)
 
     def __str__(self) -> str:
-        return f'Subscription ({self.user_id}, {self.company_name})'
+        return f'Client ({self.user_id}, {self.company_name})'
