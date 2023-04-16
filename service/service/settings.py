@@ -152,3 +152,6 @@ LOGGING = {
         }
     },
 }
+
+
+CELERY_BROKER = 'redis://redis:6379'
