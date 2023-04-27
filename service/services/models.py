@@ -15,7 +15,7 @@ class Service(models.Model):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.__full_price = self.full_price
-    
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
@@ -40,7 +40,7 @@ class Plan(models.Model):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.__discount_percent = self.discount_percent
-    
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
