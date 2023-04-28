@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from drf_spectacular.utils import extend_schema_serializer
 
 from services.models import Plan, Subscription
 
@@ -17,3 +18,14 @@ class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscription
         fields = ('id', 'plan', 'client_name', 'email', 'price')
+
+
+class CreateSubscriptionSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField()
+    client = serializers.IntegerField(write_only=True)
+    service = serializers.IntegerField(write_only=True)
+    plan = serializers.IntegerField(write_only=True)
+
+    class Meta:
+        model = Subscription
+        fields = ('id', 'client', 'service', 'plan')
