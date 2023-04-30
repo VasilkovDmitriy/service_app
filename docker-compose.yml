@@ -33,19 +33,24 @@ services:
     image: redis:7.0.10-alpine
     hostname: redis
 
-  worker:
+  worker1:
     build:
       context: .
-    hostname: worker
+    hostname: worker1
     entrypoint: celery
     command: -A service.celery_app worker --loglevel=info
-    environment:
-      - DB_HOST=database
-      - DB_NAME=dbname
-      - DB_USER=dbuser
-      - DB_PASS=pass      
-    volumes:
-      - ./service:/service
+    links:
+      - redis
+    depends_on:
+      - database
+      - redis
+
+  worker2:
+    build:
+      context: .
+    hostname: worker2
+    entrypoint: celery
+    command: -A service.celery_app worker --loglevel=info
     links:
       - redis
     depends_on:
