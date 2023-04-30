@@ -16,6 +16,7 @@ class SubscriptionView(mixins.CreateModelMixin,
                        GenericViewSet):
     queryset = Subscription.objects.prefetch_related(
         'plan',
+        'service',
         Prefetch('client', queryset=Client.objects.select_related('user').only('company_name', 'user__email'))
     )
     serializer_class = SubscriptionSerializer
