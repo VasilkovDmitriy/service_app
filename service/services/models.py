@@ -55,5 +55,19 @@ class Subscription(models.Model):
     plan = models.ForeignKey(Plan, related_name="subscriptions", on_delete=models.PROTECT)
     price = models.PositiveIntegerField(default=0)
 
+    class Meta:
+        constraints = (
+            models.UniqueConstraint(
+                fields=('client', 'service', 'plan'), name='unique_subscription'
+            ),
+        )
+
     def __str__(self) -> str:
         return f'Subscription ({self.id})'
+    
+    def save(self, *args, **kwargs):
+        is_created = self.pk is None
+        super().save(*args, **kwargs)
+
+        if is_created:
+            set_price.delay(self.id)
